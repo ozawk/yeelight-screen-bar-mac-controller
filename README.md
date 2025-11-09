@@ -18,7 +18,9 @@ Yeelight LED スクリーンハンギングライトをMacのメニューバー�
    - `git clone https://github.com/ozawk/yeelight-screen-bar-mac-controller`
 1. Yeelight公式アプリで「LANコントロール」を有効にします。
 2. ライトのIPアドレスを確認します。
-3. `config.txt`にライトのIPアドレスを設定します。
-   - ポート番号はデフォルトで `55443` です。
+3. `config.txt`の1行目にライトのIPアドレスを設定します。
+   - 2行目にポート番号を設定します。デフォルトは `55443` です。
+   - 3行目にはスペーサーの幅が設定されています。
 4. ./SwiftBar.appを起動し、Plugin Directoryとしてこのリポジトリの `./mac_menubar` フォルダを指定します。
+5. 真ん中の電源マークを左クリックし、Ajust MenuBarよりMenuBarの左右調整をする。
 

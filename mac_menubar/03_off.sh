@@ -21,6 +21,39 @@ if [ -f "$CONFIG_FILE" ]; then
   fi
 fi
 
+# 引数に応じてスペーサーの幅を設定
+if [ "$1" = "set_width" ]; then
+  ADJUSTMENT="$2"
+  if [ -f "$CONFIG_FILE" ]; then
+    # 既存の設定を読み込む
+    config_lines=($(cat "$CONFIG_FILE" | grep -v '^#' | grep -v '^$'))
+    IP="${config_lines[0]}"
+    PORT="${config_lines[1]}"
+    
+    CURRENT_WIDTH=20 # デフォルト値
+    if [ ${#config_lines[@]} -ge 3 ]; then
+      CURRENT_WIDTH="${config_lines[2]}"
+    fi
+
+    # 新しい幅を計算
+    NEW_WIDTH=$((CURRENT_WIDTH + ADJUSTMENT))
+    
+    # 幅が負にならないようにする
+    if [ "$NEW_WIDTH" -lt 0 ]; then
+      NEW_WIDTH=0
+    fi
+
+    # config.txtをIP, Port, 新しいWidthで上書き
+    echo "$IP" > "$CONFIG_FILE"
+    echo "$PORT" >> "$CONFIG_FILE"
+    echo "$NEW_WIDTH" >> "$CONFIG_FILE"
+    # spacerプラグインをリフレッシュ
+    open "swiftbar://refreshplugin?name=00_spacer.sh"
+  fi
+  # refresh=trueがSwiftBar側でプラグインを再読み込みさせる
+  exit
+fi
+
 send_command() {
   local cmd="$1"
   echo -e "${cmd}\r\n" | nc -w 1 "$LIGHT_IP" "$LIGHT_PORT" 2>/dev/null
@@ -30,3 +63,11 @@ send_command() {
 if [ "$1" = "run" ]; then
   send_command '{"id":1,"method":"set_power","params":["off","smooth",500]}'
 fi
+
+# 以下はドロップダウンメニューの内容
+echo "---"
+echo "Adjust MenuBar"
+echo "--Left 50px | bash='$0' param1=set_width param2=+50 terminal=false refresh=true"
+echo "--Left 10px | bash='$0' param1=set_width param2=+10 terminal=false refresh=true"
+echo "--Right 10px | bash='$0' param1=set_width param2=-10 terminal=false refresh=true"
+echo "--Right 50px | bash='$0' param1=set_width param2=-50 terminal=false refresh=true"
