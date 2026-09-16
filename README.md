@@ -2,6 +2,14 @@
 
 Yeelight LED スクリーンハンギングライトをMacのメニューバーから操作するためのツールです。
 
+
+## Images
+<img width="1280" height="1280" alt="IMG_4172" src="https://github.com/user-attachments/assets/7ea823a7-4661-4472-89e0-10e3930d7b82" />
+
+https://github.com/user-attachments/assets/ff66bde5-3174-4dd1-ab05-ecfb3a5f8bf7
+
+
+
 ## 機能
 
 メニューバーに表示されるアイコンから、以下の操作が可能です。
